@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReLink</title>
+    <script type="module" src="/main.js" defer></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <img src="/assets/logo-short-light.png" alt="ReLink Logo" />
+      </div>
+      <div class="tabs">
+        <button class="tab-button active" data-tab="discord">Discord</button>
+        <button class="tab-button" data-tab="youtube">YouTube</button>
+        <button class="tab-button" data-tab="allsphere">AllSphere</button>
+      </div>
+    </header>
+    <div class="container">
+      <div class="tab-content active" id="discord">
+        <div class="tab-description">
+          <h2>Discord FIX</h2>
+          <p>Здесь вы можете запустить различные фиксы для работы Discord. Выберите нужный фикс и нажмите кнопку для его запуска.</p>
+        </div>
+        <div class="bat-grid">
+          <div class="bat-item">
+            <button class="bat-button" data-file="discord-mgts.bat">FIX для провайдера МГТС</button>
+            <label><input type="checkbox" class="autostart" data-file="discord-mgts.bat"> Автозапуск</label>
+          </div>
+          <div class="bat-item">
+            <button class="bat-button" data-file="discord-rostelecom.bat">FIX для Ростелеком и Билайн</button>
+            <label><input type="checkbox" class="autostart" data-file="discord-rostelecom.bat"> Автозапуск</label>
+          </div>
+          <div class="bat-item">
+            <button class="bat-button" data-file="discord-all.bat">FIX для остальных провайдеров</button>
+            <label><input type="checkbox" class="autostart" data-file="discord-all.bat"> Автозапуск</label>
+          </div>
+        </div>
+      </div>
+      <div class="tab-content" id="youtube">
+        <div class="tab-description">
+          <h2>YouTube Tools</h2>
+          <p>В этом разделе находятся инструменты для работы с YouTube. Выберите нужный инструмент и запустите его, нажав на соответствующую кнопку.</p>
+        </div>
+        <div class="bat-grid">
+          <div class="bat-item">
+            <button class="bat-button" data-file="youtube-mgts.bat">FIX для провайдера МГТС</button>
+            <label><input type="checkbox" class="autostart" data-file="youtube-mgts.bat"> Автозапуск</label>
+          </div>
+          <div class="bat-item">
+            <button class="bat-button" data-file="youtube-ttk.bat">FIX для провайдера ТТК</button>
+            <label><input type="checkbox" class="autostart" data-file="youtube-ttk.bat"> Автозапуск</label>
+          </div>
+          <div class="bat-item">
+            <button class="bat-button" data-file="youtube-all.bat">FIX для остальных провайдеров</button>
+            <label><input type="checkbox" class="autostart" data-file="youtube-all.bat"> Автозапуск</label>
+          </div>
+        </div>
+      </div>
+      <div class="tab-content" id="allsphere">
+        <div class="tab-description">
+          <h2>AllSphere Tools</h2>
+          <p>Здесь собраны продвинутые инструменты для опытных пользователей. Будьте внимательны при их использовании.</p>
+        </div>
+        <div class="bat-grid">
+          <div class="bat-item">
+            <button class="bat-button" data-file="allsphere-mgts.bat">FIX для провайдера МГТС</button>
+            <label><input type="checkbox" class="autostart" data-file="allsphere-mgts.bat"> Автозапуск</label>
+          </div>
+          <div class="bat-item">
+            <button class="bat-button" data-file="allsphere-rostelecom.bat">FIX для Ростелеком и Билайн</button>
+            <label><input type="checkbox" class="autostart" data-file="allsphere-rostelecom.bat"> Автозапуск</label>
+          </div>
+          <div class="bat-item">
+            <button class="bat-button" data-file="allsphere-all.bat">FIX для остальных провайдеров</button>
+            <label><input type="checkbox" class="autostart" data-file="allsphere-all.bat"> Автозапуск</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="status-msg"></div>
+    <footer>
+      <p>ReLink <span id="app-version"></span></p>
+      <p>Powered by sviftcommunity with 💕</p>
+    </footer>
+  </body>
+</html>

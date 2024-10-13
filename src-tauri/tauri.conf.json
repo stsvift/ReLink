@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.tauri.app/config/2.0.0",
+  "productName": "relink",
+  "version": "0.1.0",
+  "identifier": "com.relink.app",
+  "build": {
+    "frontendDist": "../src"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "ReLink",
+        "width": 800,
+        "height": 600
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/icon-light.png",
+      "icons/icon-light.ico"
+    ],
+    "resources": [
+      "target/bat_files/*"
+    ],
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "shell": {
+      "open": true
+    },
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU1QThBRkFBRDVBRUVGQzUKUldURjc2N1ZxcStvNWE2WFNNR1VtTWFmZzFYMjVqZDhkZVdCKzVEdndMZGtnVHZuTE9OQVY5MUIK",
+      "endpoints": [
+        "https://github.com/stsvift/relink/releases/latest"
+      ]
+    }
+  }
+}

@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+.logo.vanilla:hover {
+  filter: drop-shadow(0 0 2em #ffe21c);
+}
+:root {
+  --accent-color: #ff7200;
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #f6f6f6;
+  background-color: #151515;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #1e1e1e;
+}
+
+.logo {
+  margin-right: 20px;
+}
+
+.logo img {
+  height: 30px;
+  width: auto;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-button {
+  background-color: #2a2a2a;
+  border: none;
+  border-radius: 20px;
+  color: #f6f6f6;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 17px;
+  transition: background-color 0.3s, color 0.3s;
+  font-family: "Nunito", sans-serif;
+}
+
+.tab-button:hover {
+  background-color: var(--accent-color);
+  color: #151515;
+}
+
+.tab-button.active {
+  background-color: var(--accent-color);
+  color: #151515;
+}
+
+.container {
+  flex-grow: 1;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  max-width: 1200px; /* Ограничиваем максимальную ширину */
+  margin-top: 20px; /* Добавляем отступ сверху */
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.bat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+  width: 100%;
+}
+
+.bat-item {
+  flex: 0 1 calc(33.333% - 20px); /* Для трех элементов в ряд */
+  min-width: 200px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  padding: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.bat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(255, 114, 0, 0.3);
+}
+
+.bat-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #3a3a3a;
+  color: #f6f6f6;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  margin-bottom: 10px;
+  font-family: "Nunito", sans-serif;
+}
+
+.bat-button:hover {
+  background-color: var(--accent-color);
+  color: #151515;
+}
+
+.bat-item label {
+  color: #f6f6f6;
+  display: flex;
+  align-items: center;
+  font-family: "Nunito", sans-serif;
+}
+
+.autostart {
+  margin-right: 5px;
+  accent-color: var(--accent-color);
+}
+
+#status-msg {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-family: "Nunito", sans-serif;
+  max-width: 80%;
+  text-align: left;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#status-msg.show {
+  opacity: 1;
+}
+
+#status-msg.success {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#status-msg.error {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+#status-msg .message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#status-msg .icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+#status-msg .close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+}
+
+#status-msg .details-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+#status-msg .details-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+#error-details {
+  display: none;
+  margin-top: 10px;
+  font-size: 0.9em;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 3px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+footer {
+  padding: 10px;
+  text-align: center;
+  background-color: #1e1e1e;
+  font-family: "Nunito", sans-serif;
+}
+
+footer p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+footer p:last-child {
+  color: var(--accent-color);
+}
+
+.tab-description {
+  text-align: center;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab-description h2 {
+  color: var(--accent-color);
+  margin-bottom: 10px;
+}
+
+.tab-description p {
+  color: #f6f6f6;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
