@@ -16,7 +16,6 @@ fn run_bat_file(app_handle: tauri::AppHandle, file_name: &str) -> Result<String,
             .join("bat_files")
             .join(file_name)
     } else {
-        // В режиме релиза используем resource_dir
         app_handle.path().resource_dir()
             .map(|dir| dir.join("target").join("bat_files").join(file_name))
             .map_err(|_| "Failed to get resource directory".to_string())?
