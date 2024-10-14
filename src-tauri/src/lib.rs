@@ -78,15 +78,13 @@ fn get_app_version() -> String {
 
 #[tauri::command]
 async fn check_update(app_handle: tauri::AppHandle) -> Result<String, String> {
-    match app_handle.updater().check().await {
-        Ok(update) => {
-            if update.is_update_available() {
-                Ok("Доступно обновление. Нажмите для установки.".to_string())
-            } else {
-                Ok("У вас установлена последняя версия.".to_string())
-            }
-        }
-        Err(e) => Err(format!("Ошибка при проверке обновлений: {}", e)),
+    let updater = app_handle.updater().map_err(|e| e.to_string())?;
+    let update = updater.check().await
+        .map_err(|e| format!("Error checking for update: {}", e))?;
+    
+    match update {
+        Some(update) => Ok(format!("Доступно обновление: версия {}", update.version)),
+        None => Ok("Обновлений не найдено. У вас установлена последняя версия.".to_string()),
     }
 }
 

@@ -110,7 +110,6 @@ async function checkForUpdates() {
 
 // Вызовите эту функцию после загрузки DOM
 document.addEventListener('DOMContentLoaded', (event) => {
-  disableContextMenu();
   statusMsgEl = document.querySelector("#status-msg");
   setupTabs();
   getAppVersion();
