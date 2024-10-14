@@ -1,11 +1,11 @@
 {
-    "version": "0.2.4",
-    "notes": "Исправлены ошибки запуска скриптов, обновлен дизайн приложения",
-    "pub_date": "2024-10-14T12:20:00Z",
+    "version": "0.25",
+    "notes": "Повышение стабильности системы",
+    "pub_date": "2024-10-15T12:00:00Z",
     "platforms": {
       "windows-x86_64": {
-        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRRWYxZkhzNHFOMTBqMVRza0ZwWlZaVUZuOFpuMTU5SjdQSTc3dmtvdWhYMzRSNTlTc0ZJd0lnMW1sNnZ3NnU4dktJdFJXRnRWR0pEdlpHckg1SGNvZjN4cXJaODdFWHdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzI4OTI4NjI2CWZpbGU6UmVMaW5rXzAuMi40X3g2NF9lbi1VUy5tc2kKZk8xN1UyZjcyRG0wTUVnNjV5N3Q1c2tyZUIrNEpZM29aVkRXbG9FcmVRb0UzR1Q5QmUvN3VQN0hTOGg0ZjN0Z01vUUR0eExST1Fad0JBdFZscFhqQWc9PQo=",
-        "url": "https://github.com/stsvift/ReLink/releases/download/v0.2.4/relink_0.2.4_x64_en-US.msi"
+        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRRWYxZkhzNHFOMThYM2lSVnp1U09RWEY1Sm9lVkcxWWMwV1EwS0xPMUlhcm5IeTZTdDJRTHAzRE5LQWdKSDZGZktRZEtaaWpCcmZRVVI4TnlleGs5RGdxZ0hZbUJ5c0FFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzI4OTQ3MjAxCWZpbGU6UmVMaW5rXzAuMi41X3g2NF9ydS1SVS5tc2kKdm5NQzBYUFIwS2UvdkVXUlVxTXBQdCs3bzVvZzFWUHYwcUtMbm5uZzRtK3MyeTNCL3NtUGhwYUwxbFNDSmh1aHhNVU9QTkVRTFZpTTUwTVFDdW5nQ2c9PQo=",
+        "url": "https://github.com/stsvift/ReLink/releases/download/v0.2.5/relink_0.2.4_x64_en-US.msi"
       }
     }
   }
