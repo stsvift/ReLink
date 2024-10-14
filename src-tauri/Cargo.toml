@@ -1,6 +1,6 @@
 [package]
 name = "ReLink"
-version = "0.2.1"
+version = "0.2.2"
 description = "App for unblocking Discord and YouTube"
 authors = ["sviftcommunity"]
 edition = "2021"
