@@ -1,4 +1,4 @@
-# ReLink ![logo-light](https://github.com/user-attachments/assets/db2b38fb-5d95-415c-899e-a13e1455121d)
+![logo-short-light](https://github.com/user-attachments/assets/5d14ad5e-761d-4fd6-b8c0-ed11e19de693)
 
 ReLink - это приложение для разблокировки Discord и YouTube, разработанное с использованием Tauri и Rust.
 
