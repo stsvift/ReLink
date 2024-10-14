@@ -86,15 +86,6 @@ async function runBatFile(fileName) {
   }
 }
 
-async function toggleAutostart(fileName, isEnabled) {
-  try {
-    await invoke("toggle_autostart", { fileName, isEnabled });
-    showStatusMessage(`Автозапуск для ${fileName} ${isEnabled ? "включен" : "выключен"}`);
-  } catch (error) {
-    showStatusMessage(`Не удалось изменить настройки автозапуска для ${fileName}. Нажмите "Подробнее" для деталей.`, true, error.toString());
-  }
-}
-
 function setupTabs() {
   const tabButtons = document.querySelectorAll('.tab-button');
   const tabContents = document.querySelectorAll('.tab-content');
@@ -177,10 +168,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   document.querySelectorAll('.bat-button').forEach(button => {
     button.addEventListener('click', () => runBatFile(button.dataset.file));
-  });
-
-  document.querySelectorAll('.autostart').forEach(checkbox => {
-    checkbox.addEventListener('change', (e) => toggleAutostart(e.target.dataset.file, e.target.checked));
   });
 
   initBubbly(); // Инициализация Bubbly
