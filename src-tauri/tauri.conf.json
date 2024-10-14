@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2.0.0",
   "productName": "relink",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "identifier": "com.relink.app",
   "build": {
     "frontendDist": "../src"
@@ -38,7 +38,7 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU1QThBRkFBRDVBRUVGQzUKUldURjc2N1ZxcStvNWE2WFNNR1VtTWFmZzFYMjVqZDhkZVdCKzVEdndMZGtnVHZuTE9OQVY5MUIK",
       "endpoints": [
-        "https://github.com/stsvift/ReLink/blob/236a8c9c96523e826a943c35f613de37ce7176a5/latest.json"
+        "https://raw.githubusercontent.com/stsvift/ReLink/refs/heads/main/latest.json"
       ]
     }
   }
