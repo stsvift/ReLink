@@ -1,5 +1,5 @@
 {
-  "name": "ReLink",
+  "name": "relink",
   "private": true,
   "version": "0.2.1",
   "type": "module",
@@ -11,5 +11,6 @@
   },
   "dependencies": {
     "@tauri-apps/plugin-updater": "^2.0.0"
-  }
+  },
+  "license": "GPL-3.0"
 }

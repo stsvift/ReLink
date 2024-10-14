@@ -36,7 +36,7 @@
       "open": true
     },
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU1QThBRkFBRDVBRUVGQzUKUldURjc2N1ZxcStvNWE2WFNNR1VtTWFmZzFYMjVqZDhkZVdCKzVEdndMZGtnVHZuTE9OQVY5MUIK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQ3OEQ4QUIzQzc1NzdGMDQKUldRRWYxZkhzNHFOMStEN1lpN0dNVGVFQlRuSCs3cGVuOGhNOFMvTVUzd2NHRXZ2N0krYlBTZjMK",
       "endpoints": [
         "https://raw.githubusercontent.com/stsvift/ReLink/refs/heads/main/latest.json"
       ]

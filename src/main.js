@@ -19,7 +19,10 @@ function showStatusMessage(message, isError = false, errorDetails = '', isUpdate
     </div>
     ${errorDetails ? `<button class="details-btn">Подробнее</button>` : ''}
     ${errorDetails ? `<pre id="error-details" style="display: none;">${errorDetails}</pre>` : ''}
-    ${isUpdate ? `<button class="install-btn">Установить обновление</button>` : ''}
+    ${isUpdate ? `
+      <button class="install-btn">Установить обновление</button>
+      <p class="update-warning">🦺 Внимание: После установки обновления компьютер может перезагрузиться.</p>
+    ` : ''}
   `;
   statusMsgEl.className = 'status-msg';
   statusMsgEl.classList.remove('hide');

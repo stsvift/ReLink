@@ -220,6 +220,13 @@ header {
   margin-top: 10px;
 }
 
+.status-msg .update-warning {
+  color: #ff4444;
+  font-size: 0.9em;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
 #error-details {
   margin-top: 10px;
   padding: 10px;
