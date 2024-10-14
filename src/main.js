@@ -1,5 +1,10 @@
 const { invoke } = window.__TAURI__.core;
 
+// Добавьте эту функцию в начало файла
+function disableContextMenu() {
+  document.addEventListener('contextmenu', event => event.preventDefault());
+}
+
 let statusMsgEl;
 let statusMsgTimeout;
 
@@ -103,7 +108,9 @@ async function checkForUpdates() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+// Вызовите эту функцию после загрузки DOM
+document.addEventListener('DOMContentLoaded', (event) => {
+  disableContextMenu();
   statusMsgEl = document.querySelector("#status-msg");
   setupTabs();
   getAppVersion();

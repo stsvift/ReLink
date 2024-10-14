@@ -1,8 +1,8 @@
 [package]
 name = "relink"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.1.7"
+description = "App for unblocking Discord and YouTube"
+authors = ["sviftcommunity"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
