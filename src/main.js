@@ -8,25 +8,37 @@ function disableContextMenu() {
 let statusMsgEl;
 let statusMsgTimeout;
 
-function showStatusMessage(message, isError = false, errorDetails = '') {
+function showStatusMessage(message, isError = false, errorDetails = '', isUpdate = false) {
   clearTimeout(statusMsgTimeout);
   
   statusMsgEl.innerHTML = `
     <div class="message-header">
       <span class="icon">${isError ? '⚠️' : '✅'}</span>
       <span class="message">${message}</span>
-      ${isError ? '<button class="close-btn">✖</button>' : ''}
+      ${isError || isUpdate ? '<button class="close-btn">✖</button>' : ''}
     </div>
-    ${isError ? `<button class="details-btn">Подробнее</button>` : ''}
-    ${isError ? `<pre id="error-details" style="display: none;">${errorDetails}</pre>` : ''}
+    ${errorDetails ? `<button class="details-btn">Подробнее</button>` : ''}
+    ${errorDetails ? `<pre id="error-details" style="display: none;">${errorDetails}</pre>` : ''}
+    ${isUpdate ? `<button class="install-btn">Установить обновление</button>` : ''}
   `;
-  statusMsgEl.className = isError ? 'error' : 'success';
+  statusMsgEl.className = 'status-msg';
+  statusMsgEl.classList.remove('hide');
   statusMsgEl.classList.add('show');
 
-  if (isError) {
+  if (isError || isUpdate) {
+    const closeBtn = statusMsgEl.querySelector('.close-btn');
+    closeBtn.addEventListener('click', () => {
+      statusMsgEl.classList.add('hide');
+      statusMsgEl.addEventListener('animationend', function hideStatusMsg() {
+        statusMsgEl.classList.remove('show', 'hide');
+        statusMsgEl.removeEventListener('animationend', hideStatusMsg);
+      });
+    });
+  }
+
+  if (errorDetails) {
     const detailsBtn = statusMsgEl.querySelector('.details-btn');
     const errorDetailsEl = statusMsgEl.querySelector('#error-details');
-    const closeBtn = statusMsgEl.querySelector('.close-btn');
     
     detailsBtn.addEventListener('click', () => {
       errorDetailsEl.style.display = errorDetailsEl.style.display === 'none' ? 'block' : 'none';
@@ -36,10 +48,11 @@ function showStatusMessage(message, isError = false, errorDetails = '') {
         setAutoHideTimeout();
       }
     });
+  }
 
-    closeBtn.addEventListener('click', () => {
-      statusMsgEl.classList.remove('show');
-    });
+  if (isUpdate) {
+    const installBtn = statusMsgEl.querySelector('.install-btn');
+    installBtn.addEventListener('click', installUpdate);
   }
 
   setAutoHideTimeout();
@@ -47,7 +60,11 @@ function showStatusMessage(message, isError = false, errorDetails = '') {
 
 function setAutoHideTimeout() {
   statusMsgTimeout = setTimeout(() => {
-    statusMsgEl.classList.remove('show');
+    statusMsgEl.classList.add('hide');
+    statusMsgEl.addEventListener('animationend', function hideStatusMsg() {
+      statusMsgEl.classList.remove('show', 'hide');
+      statusMsgEl.removeEventListener('animationend', hideStatusMsg);
+    });
   }, 5000);
 }
 
@@ -98,10 +115,26 @@ async function getAppVersion() {
 async function checkForUpdates() {
   try {
     const result = await invoke("check_update");
-    showStatusMessage(result);
+    showStatusMessage(result, false, '', true);
   } catch (error) {
     showStatusMessage(
       "Ошибка при проверке обновлений. Нажмите 'Подробнее' для деталей.",
+      true,
+      error.toString()
+    );
+  }
+}
+
+async function installUpdate() {
+  try {
+    await invoke("install_update");
+    showStatusMessage("Обновление успешно установлено. Приложение будет перезапущено.");
+    setTimeout(() => {
+      window.__TAURI__.process.relaunch();
+    }, 3000);
+  } catch (error) {
+    showStatusMessage(
+      "Ошибка при установке обновления. Нажмите 'Подробнее' для деталей.",
       true,
       error.toString()
     );
@@ -122,4 +155,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   document.querySelectorAll('.autostart').forEach(checkbox => {
     checkbox.addEventListener('change', (e) => toggleAutostart(e.target.dataset.file, e.target.checked));
   });
+
+  // Добавьте периодическую проверку обновлений, например, каждый час
+  setInterval(checkForUpdates, 3600000);
 });

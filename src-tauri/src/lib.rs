@@ -79,12 +79,32 @@ fn get_app_version() -> String {
 #[tauri::command]
 async fn check_update(app_handle: tauri::AppHandle) -> Result<String, String> {
     let updater = app_handle.updater().map_err(|e| e.to_string())?;
-    let update = updater.check().await
-        .map_err(|e| format!("Error checking for update: {}", e))?;
-    
-    match update {
-        Some(update) => Ok(format!("Доступно обновление: версия {}", update.version)),
-        None => Ok("Обновлений не найдено. У вас установлена последняя версия.".to_string()),
+    match updater.check().await {
+        Ok(Some(update)) => {
+            Ok(format!("Доступно обновление: версия {}. Нажмите, чтобы установить.", update.version))
+        },
+        Ok(None) => Ok("Обновлений не найдено. У вас установлена последняя версия.".to_string()),
+        Err(e) => Err(format!("Ошибка при проверке обновлений: {}", e)),
+    }
+}
+
+#[tauri::command]
+async fn install_update(app_handle: tauri::AppHandle) -> Result<(), String> {
+    let updater = app_handle.updater().map_err(|e| e.to_string())?;
+    match updater.check().await {
+        Ok(Some(update)) => {
+            update.download_and_install(
+                |progress, total| {
+                    println!("Downloaded {}/{} bytes", progress, total.unwrap_or(0));
+                },
+                || {
+                    println!("Download finished");
+                }
+            ).await.map_err(|e| e.to_string())?;
+            Ok(())
+        },
+        Ok(None) => Err("No update available".to_string()),
+        Err(e) => Err(format!("Error checking for update: {}", e)),
     }
 }
 
@@ -93,13 +113,32 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
-        .invoke_handler(tauri::generate_handler![run_bat_file, toggle_autostart, get_app_version, check_update])
+        .invoke_handler(tauri::generate_handler![run_bat_file, toggle_autostart, get_app_version, check_update, install_update])
         .setup(|app| {
             #[cfg(debug_assertions)]
             {
                 let window = app.get_webview_window("main").unwrap();
                 window.open_devtools();
             }
+            
+            // Добавляем автоматическую проверку обновлений при запуске
+            let handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                match handle.updater() {
+                    Ok(updater) => {
+                        match updater.check().await {
+                            Ok(Some(update)) => {
+                                println!("Update available: {}", update.version);
+                                // Здесь вы можете добавить логику для уведомления пользователя о доступном обновлении
+                            }
+                            Ok(None) => println!("No update available"),
+                            Err(e) => println!("Error checking for updates: {}", e),
+                        }
+                    }
+                    Err(e) => println!("Error getting updater: {}", e),
+                }
+            });
+
             Ok(())
         })
         .run(tauri::generate_context!())

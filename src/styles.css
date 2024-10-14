@@ -152,87 +152,94 @@ header {
   accent-color: var(--accent-color);
 }
 
-#status-msg {
+.status-msg {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 15px 20px;
-  border-radius: 5px;
-  font-weight: bold;
-  font-family: "Nunito", sans-serif;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 114, 0, 0.3);
+  display: none;
+  z-index: 1000;
   max-width: 80%;
-  text-align: left;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  width: auto;
+  text-align: center;
+  background-color: #2a2a2a;
+  color: #f6f6f6;
+  font-family: "Nunito", sans-serif;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.status-msg.show {
+  display: block;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.status-msg.hide {
+  animation: fadeOut 0.3s ease-out;
+}
+
+.status-msg .message-header {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#status-msg.show {
-  opacity: 1;
-}
-
-#status-msg.success {
-  background-color: #4CAF50;
-  color: white;
-}
-
-#status-msg.error {
-  background-color: var(--accent-color);
-  color: white;
-}
-
-#status-msg .message-header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
-#status-msg .icon {
+.status-msg .icon {
   margin-right: 10px;
-  font-size: 1.2em;
 }
 
-#status-msg .close-btn {
+.status-msg .close-btn,
+.status-msg .details-btn,
+.status-msg .install-btn {
   background: none;
   border: none;
-  color: white;
-  font-size: 1.2em;
+  color: #f6f6f6;
   cursor: pointer;
-  padding: 0;
-  margin-left: 10px;
-}
-
-#status-msg .details-btn {
-  background-color: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
   padding: 5px 10px;
-  border-radius: 3px;
-  cursor: pointer;
+  margin-left: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
   font-family: "Nunito", sans-serif;
-  font-size: 0.9em;
-  margin-top: 10px;
 }
 
-#status-msg .details-btn:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+.status-msg .close-btn:hover,
+.status-msg .details-btn:hover,
+.status-msg .install-btn:hover {
+  background-color: var(--accent-color);
+  color: #151515;
+}
+
+.status-msg .install-btn {
+  background-color: var(--accent-color);
+  color: #151515;
+  font-weight: bold;
+  padding: 8px 15px;
+  margin-top: 10px;
 }
 
 #error-details {
-  display: none;
   margin-top: 10px;
-  font-size: 0.9em;
-  background-color: rgba(0, 0, 0, 0.1);
   padding: 10px;
-  border-radius: 3px;
+  background-color: #1e1e1e;
+  border-radius: 5px;
   white-space: pre-wrap;
   word-break: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.9em;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateX(-50%) translateY(0); }
+  to { opacity: 0; transform: translateX(-50%) translateY(20px); }
 }
 
 footer {
