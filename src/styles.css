@@ -221,10 +221,18 @@ header {
 }
 
 .status-msg .update-warning {
-  color: #ff4444;
-  font-size: 0.9em;
+  background-color: rgba(255, 68, 68, 0.1);
+  border: 1px solid #ff4444;
+  border-radius: 5px;
+  padding: 10px;
   margin-top: 10px;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.status-msg .update-warning .warning-icon {
+  font-size: 1.2em;
+  margin-right: 10px;
 }
 
 #error-details {
@@ -263,6 +271,17 @@ footer p {
 
 footer p:last-child {
   color: var(--accent-color);
+}
+
+footer .license-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: bold;
+}
+
+footer .license-link:hover {
+  color: #ff9d4d;
 }
 
 .tab-description {

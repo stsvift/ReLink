@@ -9,66 +9,70 @@ let statusMsgEl;
 let statusMsgTimeout;
 
 function showStatusMessage(message, isError = false, errorDetails = '', isUpdate = false) {
+  if (!statusMsgEl) {
+    console.error("Status message element not found");
+    return;
+  }
+
   clearTimeout(statusMsgTimeout);
+  
+  const hasUpdate = message.includes("Доступно обновление");
   
   statusMsgEl.innerHTML = `
     <div class="message-header">
       <span class="icon">${isError ? '⚠️' : '✅'}</span>
       <span class="message">${message}</span>
-      ${isError || isUpdate ? '<button class="close-btn">✖</button>' : ''}
+      <button class="close-btn">✖</button>
     </div>
     ${errorDetails ? `<button class="details-btn">Подробнее</button>` : ''}
     ${errorDetails ? `<pre id="error-details" style="display: none;">${errorDetails}</pre>` : ''}
-    ${isUpdate ? `
+    ${hasUpdate ? `
       <button class="install-btn">Установить обновление</button>
-      <p class="update-warning">🦺 Внимание: После установки обновления компьютер может перезагрузиться.</p>
+      <div class="update-warning">
+        <span class="warning-icon">⚠️</span>
+        <span>Внимание: После установки обновления компьютер может перезагрузиться.</span>
+      </div>
     ` : ''}
   `;
   statusMsgEl.className = 'status-msg';
   statusMsgEl.classList.remove('hide');
   statusMsgEl.classList.add('show');
 
-  if (isError || isUpdate) {
-    const closeBtn = statusMsgEl.querySelector('.close-btn');
-    closeBtn.addEventListener('click', () => {
-      statusMsgEl.classList.add('hide');
-      statusMsgEl.addEventListener('animationend', function hideStatusMsg() {
-        statusMsgEl.classList.remove('show', 'hide');
-        statusMsgEl.removeEventListener('animationend', hideStatusMsg);
-      });
-    });
+  const closeBtn = statusMsgEl.querySelector('.close-btn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', hideStatusMessage);
   }
 
   if (errorDetails) {
     const detailsBtn = statusMsgEl.querySelector('.details-btn');
     const errorDetailsEl = statusMsgEl.querySelector('#error-details');
     
-    detailsBtn.addEventListener('click', () => {
-      errorDetailsEl.style.display = errorDetailsEl.style.display === 'none' ? 'block' : 'none';
-      if (errorDetailsEl.style.display === 'block') {
-        clearTimeout(statusMsgTimeout);
-      } else {
-        setAutoHideTimeout();
-      }
-    });
+    if (detailsBtn && errorDetailsEl) {
+      detailsBtn.addEventListener('click', () => {
+        errorDetailsEl.style.display = errorDetailsEl.style.display === 'none' ? 'block' : 'none';
+      });
+    }
   }
 
   if (isUpdate) {
     const installBtn = statusMsgEl.querySelector('.install-btn');
-    installBtn.addEventListener('click', installUpdate);
+    if (installBtn) {
+      installBtn.addEventListener('click', installUpdate);
+    }
   }
 
-  setAutoHideTimeout();
+  // Устанавливаем таймер на 4 секунды для автоматического скрытия сообщения
+  statusMsgTimeout = setTimeout(hideStatusMessage, 4000);
 }
 
-function setAutoHideTimeout() {
-  statusMsgTimeout = setTimeout(() => {
+function hideStatusMessage() {
+  if (statusMsgEl) {
     statusMsgEl.classList.add('hide');
     statusMsgEl.addEventListener('animationend', function hideStatusMsg() {
       statusMsgEl.classList.remove('show', 'hide');
       statusMsgEl.removeEventListener('animationend', hideStatusMsg);
     });
-  }, 5000);
+  }
 }
 
 async function runBatFile(fileName) {
@@ -147,6 +151,9 @@ async function installUpdate() {
 // Вызовите эту функцию после загрузки DOM
 document.addEventListener('DOMContentLoaded', (event) => {
   statusMsgEl = document.querySelector("#status-msg");
+  if (!statusMsgEl) {
+    console.error("Status message element not found in the DOM");
+  }
   setupTabs();
   getAppVersion();
   checkForUpdates();
