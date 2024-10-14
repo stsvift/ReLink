@@ -61,8 +61,8 @@ function showStatusMessage(message, isError = false, errorDetails = '', isUpdate
     }
   }
 
-  // Устанавливаем таймер на 4 секунды для автоматического скрытия сообщения
-  statusMsgTimeout = setTimeout(hideStatusMessage, 4000);
+  // Увеличиваем время отображения уведомления до 10 секунд
+  statusMsgTimeout = setTimeout(hideStatusMessage, 10000);
 }
 
 function hideStatusMessage() {
@@ -78,8 +78,10 @@ function hideStatusMessage() {
 async function runBatFile(fileName) {
   try {
     const result = await invoke("run_bat_file", { fileName });
-    showStatusMessage(`Файл ${fileName} успешно запущен`);
+    console.log(result); // Выводим результат в консоль для отладки
+    showStatusMessage(result);
   } catch (error) {
+    console.error("Ошибка при запуске bat-файла:", error);
     showStatusMessage(`Не удалось запустить ${fileName}. Нажмите "Подробнее" для деталей.`, true, error.toString());
   }
 }
@@ -148,6 +150,21 @@ async function installUpdate() {
   }
 }
 
+// Инициализация Bubbly
+function initBubbly() {
+  bubbly({
+    colorStart: "#000000",
+    colorStop: "#000000",
+    bubbleFunc: () => `hsla(${Math.random() > 0.5 ? "0, 0%, 100%" : "28, 100%, 50%"}, ${Math.random() * 0.1})`,
+    radiusFunc: () => 4 + Math.random() * 25,
+    angleFunc: () => Math.random() > 0.5 ? 180 : 0,
+    velocityFunc: () => 0.1 + Math.random() * 0.5,
+    bubbles: 100,
+    compose: "source-over",
+    shadowColor: "rgba(255, 114, 0, 0.3)" // Цвет акцента (оранжевый) для теней
+  });
+}
+
 // Вызовите эту функцию после загрузки DOM
 document.addEventListener('DOMContentLoaded', (event) => {
   statusMsgEl = document.querySelector("#status-msg");
@@ -165,6 +182,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   document.querySelectorAll('.autostart').forEach(checkbox => {
     checkbox.addEventListener('change', (e) => toggleAutostart(e.target.dataset.file, e.target.checked));
   });
+
+  initBubbly(); // Инициализация Bubbly
 
   // Добавьте периодическую проверку обновлений, например, каждый час
   setInterval(checkForUpdates, 3600000);

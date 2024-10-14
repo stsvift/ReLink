@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "ReLink"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "dirs",
  "serde",
@@ -13,6 +13,7 @@ dependencies = [
  "tauri-build",
  "tauri-plugin-shell",
  "tauri-plugin-updater",
+ "winapi",
 ]
 
 [[package]]

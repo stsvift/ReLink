@@ -5,46 +5,47 @@ use std::env;
 use std::fs;
 use dirs::config_dir;
 use tauri_plugin_updater::UpdaterExt;
+use std::path::PathBuf;
 
 #[tauri::command]
 fn run_bat_file(app_handle: tauri::AppHandle, file_name: &str) -> Result<String, String> {
-    let resource_path = if cfg!(debug_assertions) {
-        // В режиме разработки используем путь относительно текущей директории
+    let resource_path: PathBuf = if cfg!(debug_assertions) {
         env::current_dir()
-            .map_err(|e| e.to_string())?
+            .map_err(|e| format!("Не удалось получить текущую директорию: {}", e))?
             .join("target")
             .join("bat_files")
             .join(file_name)
     } else {
         app_handle.path().resource_dir()
-            .map(|dir| dir.join("target").join("bat_files").join(file_name))
-            .map_err(|_| "Failed to get resource directory".to_string())?
+            .map_err(|_| "Не удалось получить директорию ресурсов".to_string())?
+            .join("target")
+            .join("bat_files")
+            .join(file_name)
     };
 
     // Проверяем существование файла
     if !resource_path.exists() {
-        return Err(format!("File not found: {:?}", resource_path));
+        return Err(format!("Файл не найден: {:?}", resource_path));
     }
 
     // Выводим путь к файлу для отладки
-    println!("Attempting to run file: {:?}", resource_path);
+    println!("Попытка запустить файл: {:?}", resource_path);
 
-    let output = Command::new("cmd")
-        .args(&["/C", resource_path.to_str().unwrap()])
+    let output = Command::new(resource_path)
         .output()
-        .map_err(|e| e.to_string())?;
+        .map_err(|e| format!("Не удалось выполнить команду: {}", e))?;
 
     if output.status.success() {
-        Ok(String::from_utf8_lossy(&output.stdout).to_string())
+        Ok(format!("Файл {} успешно запущен", file_name))
     } else {
-        Err(String::from_utf8_lossy(&output.stderr).to_string())
+        Err(format!("Не удалось запустить {}. Ошибка: {}", file_name, String::from_utf8_lossy(&output.stderr)))
     }
 }
 
 #[tauri::command]
 fn toggle_autostart(file_name: &str, is_enabled: bool) -> Result<(), String> {
     let autostart_dir = config_dir()
-        .ok_or_else(|| "Failed to get config directory".to_string())?
+        .ok_or_else(|| "Не удалось получить директорию конфигурации".to_string())?
         .join("Microsoft")
         .join("Windows")
         .join("Start Menu")
@@ -52,7 +53,7 @@ fn toggle_autostart(file_name: &str, is_enabled: bool) -> Result<(), String> {
         .join("Startup");
 
     let bat_path = env::current_dir()
-        .map_err(|e| e.to_string())?
+        .map_err(|e| format!("Не удалось получить текущую директорию: {}", e))?
         .join("target")
         .join("bat_files")
         .join(file_name);
@@ -61,10 +62,10 @@ fn toggle_autostart(file_name: &str, is_enabled: bool) -> Result<(), String> {
 
     if is_enabled {
         fs::copy(&bat_path, &autostart_path)
-            .map_err(|e| format!("Failed to copy file to autostart: {}", e))?;
+            .map_err(|e| format!("Не удалось скопировать файл в автозапуск: {}", e))?;
     } else {
         fs::remove_file(&autostart_path)
-            .map_err(|e| format!("Failed to remove file from autostart: {}", e))?;
+            .map_err(|e| format!("Не удалось удалить файл из автозапуска: {}", e))?;
     }
 
     Ok(())
@@ -77,7 +78,7 @@ fn get_app_version() -> String {
 
 #[tauri::command]
 async fn check_update(app_handle: tauri::AppHandle) -> Result<String, String> {
-    let updater = app_handle.updater().map_err(|e| e.to_string())?;
+    let updater = app_handle.updater().map_err(|e| format!("Ошибка при получении обновления: {}", e))?;
     match updater.check().await {
         Ok(Some(update)) => {
             Ok(format!("Доступно обновление: версия {}. Нажмите, чтобы установить.", update.version))
@@ -89,21 +90,21 @@ async fn check_update(app_handle: tauri::AppHandle) -> Result<String, String> {
 
 #[tauri::command]
 async fn install_update(app_handle: tauri::AppHandle) -> Result<(), String> {
-    let updater = app_handle.updater().map_err(|e| e.to_string())?;
+    let updater = app_handle.updater().map_err(|e| format!("Ошибка при получении обновления: {}", e))?;
     match updater.check().await {
         Ok(Some(update)) => {
             update.download_and_install(
                 |progress, total| {
-                    println!("Downloaded {}/{} bytes", progress, total.unwrap_or(0));
+                    println!("Загружено {}/{} байт", progress, total.unwrap_or(0));
                 },
                 || {
-                    println!("Download finished");
+                    println!("Загрузка завершена");
                 }
-            ).await.map_err(|e| e.to_string())?;
+            ).await.map_err(|e| format!("Ошибка при установке обновления: {}", e))?;
             Ok(())
         },
-        Ok(None) => Err("No update available".to_string()),
-        Err(e) => Err(format!("Error checking for update: {}", e)),
+        Ok(None) => Err("Нет доступных обновлений".to_string()),
+        Err(e) => Err(format!("Ошибка при проверке обновлений: {}", e)),
     }
 }
 

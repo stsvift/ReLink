@@ -5,12 +5,14 @@
 }
 :root {
   --accent-color: #ff7200;
+  --background-color: #000000;
+  --text-color: #f6f6f6;
+  --element-background: #1a1a1a;
   font-family: "Nunito", sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-  color: #f6f6f6;
-  background-color: #151515;
+  color: var(--text-color);
 }
 
 body {
@@ -19,6 +21,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--background-color);
 }
 
 header {
@@ -26,7 +30,11 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #1e1e1e;
+  background-color: var(--background-color);
+  border-bottom: 2px solid var(--accent-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .logo {
@@ -44,48 +52,53 @@ header {
 }
 
 .tab-button {
-  background-color: #2a2a2a;
-  border: none;
+  background-color: var(--element-background);
+  border: 1px solid var(--accent-color);
   border-radius: 20px;
-  color: #f6f6f6;
+  color: var(--text-color);
   cursor: pointer;
   padding: 10px 20px;
   font-size: 17px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
   font-family: "Nunito", sans-serif;
+  box-shadow: none;
 }
 
-.tab-button:hover {
+.tab-button:hover,
+.tab-button.active,
+.bat-button:hover,
+.status-msg .close-btn:hover,
+.status-msg .details-btn:hover,
+.status-msg .install-btn:hover {
   background-color: var(--accent-color);
-  color: #151515;
-}
-
-.tab-button.active {
-  background-color: var(--accent-color);
-  color: #151515;
+  color: var(--background-color);
+  box-shadow: 0 0 20px rgba(255, 114, 0, 0.6);
 }
 
 .container {
-  flex-grow: 1;
+  flex: 1;
   padding: 20px;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .tab-content {
   display: none;
+  width: 100%;
+  max-width: 1200px;
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  box-sizing: border-box;
   opacity: 0;
   transform: translateX(20px);
   transition: opacity 0.3s ease, transform 0.3s ease;
-  width: 100%;
-  max-width: 1200px; /* Ограничиваем максимальную ширину */
-  margin-top: 20px; /* Добавляем отступ сверху */
 }
 
 .tab-content.active {
@@ -103,22 +116,23 @@ header {
 }
 
 .bat-item {
-  flex: 0 1 calc(33.333% - 20px); /* Для трех элементов в ряд */
+  flex: 0 1 calc(33.333% - 20px);
   min-width: 200px;
   max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #2a2a2a;
+  background-color: rgba(26, 26, 26, 0.8);
   border-radius: 10px;
   padding: 15px;
   transition: transform 0.3s, box-shadow 0.3s;
   box-sizing: border-box;
+  box-shadow: none;
 }
 
 .bat-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(255, 114, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(255, 114, 0, 0.6);
 }
 
 .bat-button {
@@ -126,22 +140,24 @@ header {
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
-  background-color: #3a3a3a;
-  color: #f6f6f6;
+  background-color: var(--element-background);
+  color: var(--text-color);
   border: none;
   border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
   margin-bottom: 10px;
   font-family: "Nunito", sans-serif;
+  box-shadow: none;
 }
 
 .bat-button:hover {
   background-color: var(--accent-color);
-  color: #151515;
+  color: var(--background-color);
+  box-shadow: 0 4px 15px rgba(255, 114, 0, 0.6);
 }
 
 .bat-item label {
-  color: #f6f6f6;
+  color: var(--text-color);
   display: flex;
   align-items: center;
   font-family: "Nunito", sans-serif;
@@ -159,7 +175,7 @@ header {
   transform: translateX(-50%);
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(255, 114, 0, 0.3);
+  box-shadow: 0 0 25px rgba(255, 114, 0, 0.6);
   display: none;
   z-index: 1000;
   max-width: 80%;
@@ -209,12 +225,12 @@ header {
 .status-msg .details-btn:hover,
 .status-msg .install-btn:hover {
   background-color: var(--accent-color);
-  color: #151515;
+  color: var(--background-color);
 }
 
 .status-msg .install-btn {
   background-color: var(--accent-color);
-  color: #151515;
+  color: var(--background-color);
   font-weight: bold;
   padding: 8px 15px;
   margin-top: 10px;
@@ -260,8 +276,11 @@ header {
 footer {
   padding: 10px;
   text-align: center;
-  background-color: #1e1e1e;
+  background-color: var(--background-color);
   font-family: "Nunito", sans-serif;
+  border-top: 2px solid var(--accent-color);
+  position: relative;
+  z-index: 1;
 }
 
 footer p {
@@ -298,7 +317,18 @@ footer .license-link:hover {
 }
 
 .tab-description p {
-  color: #f6f6f6;
+  color: var(--text-color);
   font-size: 0.9em;
   line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .bat-grid {
+    flex-direction: column;
+  }
+
+  .bat-item {
+    width: 100%;
+    max-width: none;
+  }
 }
